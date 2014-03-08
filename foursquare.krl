@@ -14,19 +14,11 @@ ruleset Foursquare {
   global {
   }
   
-  rule process_fs_checkin is active {
+  rule test_hook is active {
     select when foursquare checkin
-    pre {
-      venue = event:attr("venue");
-      city = event:attr("city");
-      shout = event:attr("shout");
-      createdAt = event:attr("createdAt");
-    }
-    fired {
-      set ent:venue venue;
-      set ent:city city;
-      set ent:shout shout;
-      set ent:createdAt createdAt;
+    pre {}
+    {
+      notify("Foursquare checking", "There was a foursquare checkin!") with sticky = true;
     }
   }
   
@@ -34,12 +26,12 @@ ruleset Foursquare {
     select when web cloudAppSelected
     pre {
       my_html = <<
-        <h5>Hello, world!</h5>
+        <h5>Checkins go here</h5>
       >>;
     }
     {
       SquareTag:inject_styling();
-      CloudRain:createLoadPanel("Hello World!", {}, my_html);
+      CloudRain:createLoadPanel("CS462 Lab 5: Foursquare Checkins", {}, my_html);
     }
   }
 }
