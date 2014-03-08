@@ -13,6 +13,7 @@ ruleset Foursquare {
   }
   global {
   }
+  
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
@@ -26,6 +27,17 @@ ruleset Foursquare {
       set ent:city city;
       set ent:shout shout;
       set ent:createdAt createdAt;
+    }
+  }
+  
+  rule display_checkin is active {
+    select when web cloudAppSelected
+    pre {
+      my_html = <<
+        <h5>Hello, world!</h5>
+      >>;
+    }
+    {
       SquareTag:inject_styling();
       CloudRain:createLoadPanel("Hello World!", {}, my_html);
     }
