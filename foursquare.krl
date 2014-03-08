@@ -13,14 +13,19 @@ ruleset Foursquare {
   }
   global {
   }
-  rule HelloWorld is active {
-    select when web cloudAppSelected
+  rule process_fs_checkin is active {
+    select when foursquare checkin
     pre {
-      my_html = <<
-        <h5>Hello, world!</h5>
-      >>;
+      venue = event:attr("venue");
+      city = event:attr("city");
+      shout = event:attr("shout");
+      createdAt = event:attr("createdAt");
     }
-    {
+    fired {
+      set ent:venue venue;
+      set ent:city city;
+      set ent:shout shout;
+      set ent:createdAt createdAt;
       SquareTag:inject_styling();
       CloudRain:createLoadPanel("Hello World!", {}, my_html);
     }
