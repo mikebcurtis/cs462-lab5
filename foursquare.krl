@@ -18,7 +18,7 @@ ruleset Foursquare {
     select when foursquare checkin
     pre {}
     {
-      notify("Foursquare checking", "There was a foursquare checkin!") with sticky = true;
+      send_directive("text") with body = "my text response";
     }
   }
   
