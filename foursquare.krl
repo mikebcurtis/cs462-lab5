@@ -41,6 +41,10 @@ ruleset Foursquare {
   rule display_checkin is active {
     select when web cloudAppSelected
     pre {
+      venue = ent:venue;
+      city = ent:city;
+      shout = ent:shout;
+      createdAt = ent:createdAt;
       my_html = <<
         <h5>Venue: #{ent:venue}</h5>
         <h5>City: #{ent:city}</h5>
@@ -50,7 +54,7 @@ ruleset Foursquare {
     }
     if (ent:venue || ent:city || ent:shout || ent:createdAt) then {
       SquareTag:inject_styling();
-      CloudRain:createLoadPanel("CS462 Lab 5: Foursquare Checkins", {}, my_html);
+      CloudRain:createLoadPanel("CS462 Lab 5: Foursquare Checkins", {}, "<h5>#{venue} #{city} #{shout} #{createdAt}</h5>");
     }
   }
 }
