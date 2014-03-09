@@ -43,9 +43,12 @@ ruleset Foursquare {
     pre {
       my_html = <<
         <h5>Venue: #{ent:venue}</h5>
+        <h5>City: #{ent:city}</h5>
+        <h5>Shout: #{ent:shout}</h5>
+        <h5>CreatedAt: #{ent:createdAt}</h5>
       >>;
     }
-    {
+    if (ent:venue || ent:city || ent:shout || ent:createdAt) then {
       SquareTag:inject_styling();
       CloudRain:createLoadPanel("CS462 Lab 5: Foursquare Checkins", {}, my_html);
     }
