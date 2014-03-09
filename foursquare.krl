@@ -35,10 +35,10 @@ ruleset Foursquare {
     select when web cloudAppSelected
     pre {
       my_html = <<
-        <h5>Venue: #{ent:venue}</h5>
-        <h5>City: #{ent:city}</h5>
-        <h5>Shout: #{ent:shout}</h5>
-        <h5>CreatedAt: #{ent:createdAt}</h5>
+        <h5>Venue: #{ent:venue.as("str")}</h5>
+        <h5>City: #{ent:city.as("str")}</h5>
+        <h5>Shout: #{ent:shout.as("str")}</h5>
+        <h5>CreatedAt: #{ent:createdAt.as("str")}</h5>
       >>;
     }
     {
