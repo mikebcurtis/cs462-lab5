@@ -14,14 +14,6 @@ ruleset Foursquare {
   global {
   }
   
-  rule test_hook is active {
-    select when foursquare checkin
-    pre {}
-    {
-      send_directive("text") with body = "my text response";
-    }
-  }
-  
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
