@@ -17,10 +17,11 @@ ruleset Foursquare {
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
-      venue = event:param("venue");
-      city = event:param("city");
-      shout = event:param("shout");
-      createdAt = event:param("createdAt");
+      checkin = event:attr("checkin").decode()
+      venue = checkin.pick("$..venue");
+      city = checkin.pick("$..city");
+      shout = checkin.pick("$..shout");
+      createdAt = checkin.pick("$..createdAt");
     }
     fired {
       set ent:venue venue;
