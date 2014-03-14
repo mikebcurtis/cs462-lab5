@@ -23,6 +23,9 @@ ruleset Foursquare {
       shout = checkin.pick("$..shout");
       createdAt = checkin.pick("$..createdAt");
     }
+    {
+      send_directive(venue) with checkin = venue;
+    }
     fired {
       set ent:venue venue;
       set ent:city city;
