@@ -17,7 +17,7 @@ ruleset Foursquare {
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
-	  raw = event:attr("checkin").encode();
+	  raw = event:attr("checkin");
       checkin = event:attr("checkin").decode();
       venue = checkin.pick("$..venue.name");
       city = checkin.pick("$..city");
@@ -46,6 +46,7 @@ ruleset Foursquare {
         <h5>City: #{ent:city.as("str")}</h5>
         <h5>Shout: #{ent:shout.as("str")}</h5>
         <h5>CreatedAt: #{ent:createdAt.as("str")}</h5>
+		<h5>Raw: #{ent:raw.as("str")}</h5>
       >>;
     }
     {
