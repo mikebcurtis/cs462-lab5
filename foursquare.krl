@@ -17,12 +17,13 @@ ruleset Foursquare {
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
-	  raw = event:attr("checkin");
       checkin = event:attr("checkin").decode();
       venue = checkin.pick("$..venue.name");
       city = checkin.pick("$..city");
       shout = checkin.pick("$..shout");
       createdAt = checkin.pick("$..createdAt");
+	  lat = checkin.pick("$..lat");
+	  lng = checkin.pick("$..lng");
     }
     {
       send_directive(venue) with checkin = venue;
@@ -32,9 +33,9 @@ ruleset Foursquare {
       set ent:city city;
       set ent:shout shout;
       set ent:createdAt createdAt;
-	  set ent:raw raw;
-      raise pds event new_location_data with key = "fs_checkin" and value = {"venue":venue,"city":city,"shout":shout,"createdAt":createdAt};
-	  raise pds event new_raw_location_data with key = "fs_checkin_raw" and value = raw;
+	  set ent:lat lat;
+	  set ent:lng lng;
+      raise pds event new_location_data with key = "fs_checkin" and value = {"venue":venue,"city":city,"shout":shout,"createdAt":createdAt,"lat":lat,"lng":lng};
     }
   }
   
@@ -46,7 +47,6 @@ ruleset Foursquare {
         <h5>City: #{ent:city.as("str")}</h5>
         <h5>Shout: #{ent:shout.as("str")}</h5>
         <h5>CreatedAt: #{ent:createdAt.as("str")}</h5>
-		<h5>Raw: #{ent:raw.as("str")}</h5>
       >>;
     }
     {
