@@ -47,6 +47,8 @@ ruleset Foursquare {
         <h5>City: #{ent:city.as("str")}</h5>
         <h5>Shout: #{ent:shout.as("str")}</h5>
         <h5>CreatedAt: #{ent:createdAt.as("str")}</h5>
+        <h5>Lat: #{ent:lat}</h5>
+        <h5>Lng: #{ent:lng}</h5>
       >>;
     }
     {
