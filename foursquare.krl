@@ -17,6 +17,7 @@ ruleset Foursquare {
   rule process_fs_checkin is active {
     select when foursquare checkin
     pre {
+	  raw = event:attr("checkin").encode();
       checkin = event:attr("checkin").decode();
       venue = checkin.pick("$..venue.name");
       city = checkin.pick("$..city");
@@ -31,7 +32,9 @@ ruleset Foursquare {
       set ent:city city;
       set ent:shout shout;
       set ent:createdAt createdAt;
+	  set ent:raw raw;
       raise pds event new_location_data with key = "fs_checkin" and value = {"venue":venue,"city":city,"shout":shout,"createdAt":createdAt};
+	  raise pds event new_raw_location_data with key = "fs_checkin_raw" and value = raw;
     }
   }
   
