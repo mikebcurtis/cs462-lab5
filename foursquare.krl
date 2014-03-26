@@ -12,6 +12,30 @@ ruleset Foursquare {
   dispatch {
   }
   global {
+  	subscription_map_A = {
+  		"cid": "432E1070-B497-11E3-9C5B-107FE71C24E1"
+  	};
+  	subscription_map_B = {
+  		"cid": "2E5A2A62-B497-11E3-B470-1A8CE71C24E1"
+  	};
+  	subscription_maps = [subscription_map_A, subscription_map_B];
+  }
+  
+  rule dispatch is active {
+    select when foursquare checkin
+    	foreach subscription_maps setting (subscriber)
+    pre {
+      checkin = event:attr("checkin").decode();
+      lat = checkin.pick("$..lat");
+      lng = checkin.pick("$..lng");    
+    }
+    {
+    	event:send(subscriber, "location", "notification")
+    	  with attrs = {"lat": lat,
+    	  		"lng": lng
+    	  		}
+    }
+    
   }
   
   rule process_fs_checkin is active {
@@ -27,6 +51,7 @@ ruleset Foursquare {
     }
     {
       send_directive(venue) with checkin = venue;
+      
     }
     fired {
       set ent:venue venue;
